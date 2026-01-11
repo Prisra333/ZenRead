@@ -1,0 +1,70 @@
+:root {
+        --bg-color: #fdfdfd;
+            --text-color: #333333;
+                --accent-color: #555555;
+                    --paper-shadow: 0 4px 20px rgba(0,0,0,0.03);
+                    }
+                    body {
+                        margin: 0;
+                            font-family: serif;
+                                background-color: var(--bg-color);
+                                    color: var(--text-color);
+                                        line-height: 1.8;
+                                        }
+                                        .container {
+                                            max-width: 800px;
+                                                margin: 0 auto;
+                                                    padding: 2rem;
+                                                        min-height: 100vh;
+                                                            display: flex;
+                                                                flex-direction: column;
+                                                                }
+                                                                header {
+                                                                    padding: 1rem 0;
+                                                                        text-align: center;
+                                                                            opacity: 0.6;
+                                                                            }
+                                                                            main {
+                                                                                flex: 1;
+                                                                                    display: flex;
+                                                                                        flex-direction: column;
+                                                                                            justify-content: center;
+                                                                                                align-items: center;
+                                                                                                    text-align: center;
+                                                                                                    }
+                                                                                                    h1 {
+                                                                                                        font-size: 2rem;
+                                                                                                            font-weight: normal;
+                                                                                                                margin-bottom: 1rem;
+                                                                                                                }
+                                                                                                                .subtitle {
+                                                                                                                    opacity: 0.7;
+                                                                                                                        margin-bottom: 3rem;
+                                                                                                                        }
+                                                                                                                        .input-group {
+                                                                                                                            display: flex;
+                                                                                                                                gap: 10px;
+                                                                                                                                    width: 100%;
+                                                                                                                                    }
+                                                                                                                                    input {
+                                                                                                                                        flex: 1;
+                                                                                                                                            padding: 15px;
+                                                                                                                                                border: 1px solid #ddd;
+                                                                                                                                                    font-size: 1rem;
+                                                                                                                                                        background: transparent;
+                                                                                                                                                        }
+                                                                                                                                                        button {
+                                                                                                                                                            padding: 15px;
+                                                                                                                                                                background-color: var(--text-color);
+                                                                                                                                                                    color: white;
+                                                                                                                                                                        border: none;
+                                                                                                                                                                        }
+                                                                                                                                                                        .hidden { display: none; }
+                                                                                                                                                                        footer {
+                                                                                                                                                                            text-align: center;
+                                                                                                                                                                                font-size: 0.8rem;
+                                                                                                                                                                                    opacity: 0.4;
+                                                                                                                                                                                        margin-top: 2rem;
+                                                                                                                                                                                        }
+                                                                                                                                                                                        
+}

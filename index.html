@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Zen Read</title>
+                <link rel="manifest" href="manifest.json">
+                    <meta name="theme-color" content="#fdfdfd">
+                        <link rel="stylesheet" href="style.css">
+                        </head>
+                        <body>
+                            <div class="container">
+                                    <header>
+                                                <div class="logo">Zen Read</div>
+                                                        </header>
+                                                                <main>
+                                                                            <section class="input-area">
+                                                                                            <h1>静寂の中で、<br>知識を吸収する。</h1>
+                                                                                                            <p class="subtitle">読みたい記事のURLを入力してください。</p>
+                                                                                                                            <div class="input-group">
+                                                                                                                                                <input type="text" placeholder="URLを貼り付け..." id="content-input">
+                                                                                                                                                                    <button id="convert-btn">読書を開始</button>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </section>
+                                                                                                                                                                                                        </main>
+                                                                                                                                                                                                                <footer>
+                                                                                                                                                                                                                            <p>© 2026 Zen Read Project</p>
+                                                                                                                                                                                                                                    </footer>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                            <script src="sw.js"></script>
+                                                                                                                                                                                                                                                <script>
+                                                                                                                                                                                                                                                        if ('serviceWorker' in navigator) {
+                                                                                                                                                                                                                                                                    navigator.serviceWorker.register('sw.js');
+                                                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                                                </script>
+                                                                                                                                                                                                                                                                                </body>
+                                                                                                                                                                                                                                                                                </html>
+                                                                                                                                                                                                                                                                                
