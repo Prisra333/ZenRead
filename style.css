@@ -1,70 +1,293 @@
 :root {
-        --bg-color: #fdfdfd;
-            --text-color: #333333;
-                --accent-color: #555555;
-                    --paper-shadow: 0 4px 20px rgba(0,0,0,0.03);
-                    }
-                    body {
-                        margin: 0;
-                            font-family: serif;
-                                background-color: var(--bg-color);
-                                    color: var(--text-color);
-                                        line-height: 1.8;
-                                        }
-                                        .container {
-                                            max-width: 800px;
-                                                margin: 0 auto;
-                                                    padding: 2rem;
-                                                        min-height: 100vh;
-                                                            display: flex;
-                                                                flex-direction: column;
-                                                                }
-                                                                header {
-                                                                    padding: 1rem 0;
-                                                                        text-align: center;
-                                                                            opacity: 0.6;
-                                                                            }
-                                                                            main {
-                                                                                flex: 1;
-                                                                                    display: flex;
-                                                                                        flex-direction: column;
-                                                                                            justify-content: center;
-                                                                                                align-items: center;
-                                                                                                    text-align: center;
-                                                                                                    }
-                                                                                                    h1 {
-                                                                                                        font-size: 2rem;
-                                                                                                            font-weight: normal;
-                                                                                                                margin-bottom: 1rem;
-                                                                                                                }
-                                                                                                                .subtitle {
-                                                                                                                    opacity: 0.7;
-                                                                                                                        margin-bottom: 3rem;
-                                                                                                                        }
-                                                                                                                        .input-group {
-                                                                                                                            display: flex;
-                                                                                                                                gap: 10px;
-                                                                                                                                    width: 100%;
-                                                                                                                                    }
-                                                                                                                                    input {
-                                                                                                                                        flex: 1;
-                                                                                                                                            padding: 15px;
-                                                                                                                                                border: 1px solid #ddd;
-                                                                                                                                                    font-size: 1rem;
-                                                                                                                                                        background: transparent;
-                                                                                                                                                        }
-                                                                                                                                                        button {
-                                                                                                                                                            padding: 15px;
-                                                                                                                                                                background-color: var(--text-color);
-                                                                                                                                                                    color: white;
-                                                                                                                                                                        border: none;
-                                                                                                                                                                        }
-                                                                                                                                                                        .hidden { display: none; }
-                                                                                                                                                                        footer {
-                                                                                                                                                                            text-align: center;
-                                                                                                                                                                                font-size: 0.8rem;
-                                                                                                                                                                                    opacity: 0.4;
-                                                                                                                                                                                        margin-top: 2rem;
-                                                                                                                                                                                        }
-                                                                                                                                                                                        
+  --bg-color: #fdfdfd;
+  --text-color: #333333;
+  --accent-color: #555555;
+  --paper-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+body {
+  margin: 0;
+  font-family: serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.8;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.logo {
+  opacity: 0.6;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* タブナビゲーション */
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.5rem 2rem;
+  font-family: serif;
+  font-size: 0.95rem;
+  color: var(--accent-color);
+  cursor: pointer;
+  opacity: 0.5;
+  margin-bottom: -1px;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.tab-btn.active {
+  opacity: 1;
+  border-bottom-color: var(--text-color);
+}
+
+/* メインコンテンツ */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel.hidden {
+  display: none;
+}
+
+/* 読書タブ */
+#tab-read {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.input-area {
+  width: 100%;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  opacity: 0.7;
+  margin-bottom: 3rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background: transparent;
+  font-family: inherit;
+}
+
+button {
+  padding: 15px;
+  background-color: var(--text-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: serif;
+  font-size: 0.95rem;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hidden { display: none; }
+
+.paper {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: white;
+  box-shadow: var(--paper-shadow);
+  text-align: left;
+  line-height: 2;
+}
+
+/* 混雑情報タブ */
+#tab-crowding {
+  padding-top: 2rem;
+}
+
+.crowding-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.crowding-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.crowding-header .subtitle {
+  margin-bottom: 1.5rem;
+}
+
+.crowding-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: transparent;
+  font-family: serif;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+#refresh-btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.crowding-loading {
+  text-align: center;
+  opacity: 0.5;
+  padding: 2rem;
+}
+
+.crowding-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.spot-card {
+  padding: 1.2rem 1.5rem;
+  border-left: 3px solid #ddd;
+  background: white;
+  box-shadow: var(--paper-shadow);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 0.4rem 1rem;
+  align-items: start;
+}
+
+.spot-card.level-1 { border-left-color: #4caf50; }
+.spot-card.level-2 { border-left-color: #8bc34a; }
+.spot-card.level-3 { border-left-color: #ff9800; }
+.spot-card.level-4 { border-left-color: #f44336; }
+.spot-card.level-5 { border-left-color: #b71c1c; }
+
+.spot-main {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.spot-name {
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+.spot-city {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+.spot-crowding {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.crowding-emoji {
+  font-size: 1rem;
+}
+
+.crowding-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.spot-detail {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  opacity: 0.65;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detail-label {
+  font-weight: bold;
+  white-space: nowrap;
+  min-width: 6em;
+}
+
+.crowding-updated {
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.4;
+  margin-top: 1.5rem;
+}
+
+.error-msg {
+  text-align: center;
+  opacity: 0.5;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.4;
+  margin-top: 2rem;
+}
+
+@media (max-width: 500px) {
+  .input-group {
+    flex-direction: column;
+  }
+  .spot-card {
+    grid-template-columns: 1fr;
+  }
+  .spot-crowding {
+    grid-column: 1;
+    grid-row: 2;
+    text-align: left;
+  }
 }
