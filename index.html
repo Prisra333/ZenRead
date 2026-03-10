@@ -1,78 +1,181 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Zen Read</title>
-                <link rel="manifest" href="manifest.json">
-                    <meta name="theme-color" content="#fdfdfd">
-                        <link rel="stylesheet" href="style.css">
-                        </head>
-                        <body>
-                            <div class="container">
-                                    <header>
-                                                <div class="logo">Zen Read</div>
-                                                        </header>
-                                                                <main>
-                                                                            <section class="input-area">
-                                                                                            <h1>静寂の中で、<br>知識を吸収する。</h1>
-                                                                                                            <p class="subtitle">読みたい記事のURLまたはテキストを入力してください。</p>
-                                                                                                                            <div class="input-group">
-                                                                                                                                                <input type="text" placeholder="URLまたはテキストを貼り付け..." id="content-input">
-                                                                                                                                                                    <button id="convert-btn">読書を開始</button>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                                </section>
-                                                                                                                                                                                                            <section id="result-area" class="hidden">
-                                                                                                                                                                                                                            <div class="paper">
-                                                                                                                                                                                                                                                <p></p>
-                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                            </section>
-                                                                                                                                                                                                                                                                                    </main>
-                                                                                                                                                                                                                                                                                            <footer>
-                                                                                                                                                                                                                                                                                                        <p>© 2026 Zen Read Project</p>
-                                                                                                                                                                                                                                                                                                                </footer>
-                                                                                                                                                                                                                                                                                                                    </div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen Read</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#fdfdfd">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Zen Read</div>
+      <nav class="tab-nav">
+        <button class="tab-btn active" data-tab="read">読書</button>
+        <button class="tab-btn" data-tab="crowding">混雑情報</button>
+      </nav>
+    </header>
 
-                                                                                                                                                                                                                                                                                                                        <script src="sw.js"></script>
-                                                                                                                                                                                                                                                                                                                            <script>
-                                                                                                                                                                                                                                                                                                                                    if ('serviceWorker' in navigator) {
-                                                                                                                                                                                                                                                                                                                                                navigator.serviceWorker.register('sw.js');
-                                                                                                                                                                                                                                                                                                                                                        }
+    <main>
+      <!-- 読書タブ -->
+      <section id="tab-read" class="tab-panel active">
+        <div class="input-area">
+          <h1>静寂の中で、<br>知識を吸収する。</h1>
+          <p class="subtitle">読みたい記事のURLまたはテキストを入力してください。</p>
+          <div class="input-group">
+            <input type="text" placeholder="URLまたはテキストを貼り付け..." id="content-input">
+            <button id="convert-btn">読書を開始</button>
+          </div>
+        </div>
+        <section id="result-area" class="hidden">
+          <div class="paper">
+            <p></p>
+          </div>
+        </section>
+      </section>
 
-                                                                                                                                                                                                                                                                                                                                                                const convertBtn = document.getElementById('convert-btn');
-                                                                                                                                                                                                                                                                                                                                                                        const input = document.getElementById('content-input');
-                                                                                                                                                                                                                                                                                                                                                                                const resultArea = document.getElementById('result-area');
-                                                                                                                                                                                                                                                                                                                                                                                        const resultText = document.querySelector('.paper p'); 
+      <!-- 混雑情報タブ -->
+      <section id="tab-crowding" class="tab-panel hidden">
+        <div class="crowding-header">
+          <h1>日本の観光地<br>混雑情報</h1>
+          <p class="subtitle">主要観光地の現在の混雑状況をお知らせします。</p>
+          <div class="crowding-controls">
+            <select id="region-filter">
+              <option value="all">すべての地域</option>
+              <option value="関東">関東</option>
+              <option value="関西">関西</option>
+              <option value="中部">中部</option>
+              <option value="中国">中国</option>
+            </select>
+            <button id="refresh-btn">更新</button>
+          </div>
+        </div>
+        <div id="crowding-loading" class="crowding-loading hidden">読み込み中...</div>
+        <div id="crowding-list" class="crowding-list"></div>
+        <p id="crowding-updated" class="crowding-updated"></p>
+      </section>
+    </main>
 
-                                                                                                                                                                                                                                                                                                                                                                                                convertBtn.addEventListener('click', async () => {
-                                                                                                                                                                                                                                                                                                                                                                                                            const text = input.value;
-                                                                                                                                                                                                                                                                                                                                                                                                                        if (!text) return;
+    <footer>
+      <p>© 2026 Zen Read Project</p>
+    </footer>
+  </div>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                    convertBtn.innerText = "AIが思考中...";
-                                                                                                                                                                                                                                                                                                                                                                                                                                                convertBtn.disabled = true;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            resultArea.classList.remove('hidden');
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        resultText.innerText = "静寂の中で読んでいます...";
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    try {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    const response = await fetch('/api/summarize', {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        method: 'POST',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            headers: { 'Content-Type': 'application/json' },
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                body: JSON.stringify({ text })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                const data = await response.json();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                if (data.summary) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    resultText.innerHTML = data.summary.replace(/\n/g, '<br>');
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } else {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        resultText.innerText = "読み込み失敗。もう一度試してください。";
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    } catch (error) {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    resultText.innerText = "エラーが発生しました。";
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                } finally {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                convertBtn.innerText = "読書を開始";
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                convertBtn.disabled = false;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </body>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    // --- 読書タブ ---
+    const convertBtn = document.getElementById('convert-btn');
+    const input = document.getElementById('content-input');
+    const resultArea = document.getElementById('result-area');
+    const resultText = document.querySelector('.paper p');
+
+    convertBtn.addEventListener('click', async () => {
+      const text = input.value;
+      if (!text) return;
+
+      convertBtn.innerText = "AIが思考中...";
+      convertBtn.disabled = true;
+      resultArea.classList.remove('hidden');
+      resultText.innerText = "静寂の中で読んでいます...";
+
+      try {
+        const response = await fetch('/api/summarize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text })
+        });
+        const data = await response.json();
+        if (data.summary) {
+          resultText.innerHTML = data.summary.replace(/\n/g, '<br>');
+        } else {
+          resultText.innerText = "読み込み失敗。もう一度試してください。";
+        }
+      } catch (error) {
+        resultText.innerText = "エラーが発生しました。";
+      } finally {
+        convertBtn.innerText = "読書を開始";
+        convertBtn.disabled = false;
+      }
+    });
+
+    // --- タブ切り替え ---
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.add('hidden'));
+        btn.classList.add('active');
+        const target = document.getElementById('tab-' + btn.dataset.tab);
+        target.classList.remove('hidden');
+        target.classList.add('active');
+        if (btn.dataset.tab === 'crowding') loadCrowding();
+      });
+    });
+
+    // --- 混雑情報タブ ---
+    let crowdingData = null;
+
+    async function loadCrowding() {
+      const list = document.getElementById('crowding-list');
+      const loading = document.getElementById('crowding-loading');
+      const updated = document.getElementById('crowding-updated');
+
+      loading.classList.remove('hidden');
+      list.innerHTML = '';
+
+      try {
+        const res = await fetch('/api/crowding');
+        crowdingData = await res.json();
+        renderCrowding();
+        const dt = new Date(crowdingData.updatedAt);
+        updated.textContent = `最終更新: ${dt.toLocaleString('ja-JP')}`;
+      } catch (e) {
+        list.innerHTML = '<p class="error-msg">データの取得に失敗しました。</p>';
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+
+    function renderCrowding() {
+      const list = document.getElementById('crowding-list');
+      const region = document.getElementById('region-filter').value;
+      if (!crowdingData) return;
+
+      const spots = region === 'all'
+        ? crowdingData.spots
+        : crowdingData.spots.filter(s => s.region === region);
+
+      list.innerHTML = spots.map(spot => `
+        <div class="spot-card level-${spot.crowdingLevel}">
+          <div class="spot-main">
+            <div class="spot-name">${spot.name}</div>
+            <div class="spot-city">${spot.city} ／ ${spot.region}</div>
+          </div>
+          <div class="spot-crowding">
+            <span class="crowding-emoji">${spot.crowdingEmoji}</span>
+            <span class="crowding-label">${spot.crowdingLabel}</span>
+          </div>
+          <div class="spot-detail">
+            <span class="detail-label">ベストタイム</span>
+            <span>${spot.bestTime}</span>
+          </div>
+          <div class="spot-detail">
+            <span class="detail-label">混雑ピーク</span>
+            <span>${spot.peakMonths.join('・')}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('region-filter').addEventListener('change', renderCrowding);
+    document.getElementById('refresh-btn').addEventListener('click', loadCrowding);
+  </script>
+</body>
+</html>
